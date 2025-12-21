@@ -1,0 +1,12 @@
+body {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+#settings {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
