@@ -2,11 +2,33 @@ body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  color: #e0e0e0;
+  background-color: #333333;
   justify-content: center;
+  align-items: center;
+}
+
+h2 {
+  text-align: center;
 }
 
 #settings {
   display: flex;
   gap: 16px;
   justify-content: center;
+}
+
+#container {
+  margin: 16px auto;
+  display: flex;
+  flex: 0;
+  flex-wrap: wrap;
+  box-sizing: content-box;
+  border: solid;
+  border-width: 1px;
+}
+
+#container .block {
+  box-sizing: border-box;
+  background-color: #e0e0e0;
 }
