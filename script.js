@@ -1,8 +1,15 @@
 const container = document.querySelector("#container");
 const submitBtn = document.querySelector("#submitBtn");
+const defaultBtn = document.querySelector("#default");
+const rgbBtn = document.querySelector("#rgb");
+const shadeBtn = document.querySelector("#shade");
 const eraser = document.querySelector("#eraser");
 const gridSize = 960;
 let isMouseDown = false;
+let defaultColor = true;
+let rgbColor = false;
+let shadeColor = false;
+let opacity = "0";
 
 document.addEventListener("mousedown", () => isMouseDown = true);
 document.addEventListener("mouseup", () => isMouseDown = false);
@@ -30,6 +37,8 @@ submitBtn.addEventListener("click", (event) => {
   makeGrid(userChoice);
 });
 
+
+
 // Resets all the blocks back to white
 eraser.addEventListener("click", () => {
   const blocks = document.querySelectorAll(".block");
@@ -38,6 +47,25 @@ eraser.addEventListener("click", () => {
     block.style.backgroundColor = "white";
   });
 });
+
+defaultBtn.addEventListener("click", () => {
+  defaultColor = true;
+  rgbColor = false;
+  shadeColor = false;
+});
+
+rgbBtn.addEventListener("click", () => {
+  defaultColor = false;
+  rgbColor = true;
+  shadeColor = false;
+})
+
+shadeBtn.addEventListener("click", () => {
+  defaultColor = false;
+  rgbColor = false;
+  shadeColor = true;
+})
+
 
 // Make a grid (n x n) the size of what the user inputs
 function makeGrid(userChoice) {
@@ -54,13 +82,34 @@ function makeGrid(userChoice) {
     for (let j = 0; j < userChoice; j++) {
       const newBlock = document.createElement("div");
       newBlock.classList.add("block");
+      newBlock.dataset.opacity = 0;
       newBlock.setAttribute(`style`, `height: ${blockSize}px; width: ${blockSize}px; outline: 1px solid #8f8f8f; outline-offset: -1px;`);
       container.appendChild(newBlock);
 
       newBlock.addEventListener("mousemove", () => {
         if (!isMouseDown) return;
 
-        newBlock.style.backgroundColor = "black";
+        else {
+          if (defaultColor) {
+            newBlock.style.backgroundColor = "black";
+          }
+          else if (rgbColor) {
+            const getRandomColor = () => {
+                return "#" + Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, "0"); // Gets a random number between 0x000000 and 0xFFFFFF
+            }
+            newBlock.style.backgroundColor = getRandomColor();
+          }
+          else if (shadeColor) {
+            let currentOpacity = Number(newBlock.dataset.opacity);
+
+            if (currentOpacity < 1) {
+              currentOpacity += 0.1;
+              newBlock.dataset.opacity = currentOpacity;
+            }
+
+            newBlock.style.backgroundColor = `rgba(0, 0, 0, ${currentOpacity})`;
+          };
+        };
       });
     };
   };
