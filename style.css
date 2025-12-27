@@ -15,7 +15,6 @@ h2 {
 #settings {
   display: flex;
   gap: 16px;
-  justify-content: center;
 }
 
 #container {
@@ -31,4 +30,12 @@ h2 {
 #container .block {
   box-sizing: border-box;
   background-color: #e0e0e0;
+  user-select: none;
+}
+
+#eraser {
+  font-size: 16px;
+  background-color: #f4a29d;
+  width: 80px;
+  margin: -8px 300px 0 auto;
 }
