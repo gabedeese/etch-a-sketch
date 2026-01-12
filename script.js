@@ -86,31 +86,41 @@ function makeGrid(userChoice) {
       newBlock.setAttribute(`style`, `height: ${blockSize}px; width: ${blockSize}px; outline: 1px solid #8f8f8f; outline-offset: -1px;`);
       container.appendChild(newBlock);
 
-      newBlock.addEventListener("mousemove", () => {
-        if (!isMouseDown) return;
-
+      newBlock.addEventListener("mouseover", () => {
+        if (!isMouseDown) {
+          return;
+        }
         else {
-          if (defaultColor) {
-            newBlock.style.backgroundColor = "black";
-          }
-          else if (rgbColor) {
-            const getRandomColor = () => {
-                return "#" + Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, "0"); // Gets a random number between 0x000000 and 0xFFFFFF
-            }
-            newBlock.style.backgroundColor = getRandomColor();
-          }
-          else if (shadeColor) {
-            let currentOpacity = Number(newBlock.dataset.opacity);
-
-            if (currentOpacity < 1) {
-              currentOpacity += 0.1;
-              newBlock.dataset.opacity = currentOpacity;
-            }
-
-            newBlock.style.backgroundColor = `rgba(0, 0, 0, ${currentOpacity})`;
-          };
-        };
+          colorBlock(newBlock);
+        }
       });
+      newBlock.addEventListener("mousedown", () => colorBlock(newBlock));
     };
   };
 };
+
+function colorBlock(newBlock) {
+  if (defaultColor) {
+    newBlock.style.backgroundColor = "black";
+  }
+  else if (rgbColor) {
+    const getRandomColor = () => {
+        return "#" + Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, "0"); // Gets a random number between 0x000000 and 0xFFFFFF
+    }
+    newBlock.style.backgroundColor = getRandomColor();
+  }
+  else if (shadeColor) {
+    let currentOpacity = Number(newBlock.dataset.opacity);
+
+    if (currentOpacity < 1 && currentOpacity >= 0.2) {
+      currentOpacity += 0.1;
+      newBlock.dataset.opacity = currentOpacity;
+    }
+    else if (currentOpacity < 0.2) {
+      currentOpacity = 0.2;
+      newBlock.dataset.opacity = currentOpacity;
+    }
+
+    newBlock.style.backgroundColor = `rgba(0, 0, 0, ${currentOpacity})`;
+  };
+}
